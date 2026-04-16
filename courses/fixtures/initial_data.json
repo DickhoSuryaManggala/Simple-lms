@@ -1,0 +1,166 @@
+[
+{
+  "model": "courses.category",
+  "pk": 1,
+  "fields": {
+    "name": "Programming",
+    "parent": null,
+    "description": "All about coding"
+  }
+},
+{
+  "model": "courses.category",
+  "pk": 2,
+  "fields": {
+    "name": "Python",
+    "parent": 1,
+    "description": "Python specific courses"
+  }
+},
+{
+  "model": "courses.category",
+  "pk": 3,
+  "fields": {
+    "name": "Web Development",
+    "parent": 1,
+    "description": "Web dev courses"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "title": "Django for Beginners",
+    "description": "Learn Django from scratch",
+    "instructor": 2,
+    "category": 2,
+    "created_at": "2026-04-16T13:21:55.705Z",
+    "updated_at": "2026-04-16T13:21:55.705Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 2,
+  "fields": {
+    "title": "Advanced React",
+    "description": "Master React.js",
+    "instructor": 2,
+    "category": 3,
+    "created_at": "2026-04-16T13:21:55.712Z",
+    "updated_at": "2026-04-16T13:21:55.712Z"
+  }
+},
+{
+  "model": "courses.lesson",
+  "pk": 1,
+  "fields": {
+    "course": 1,
+    "title": "Introduction",
+    "content": "Intro content",
+    "order": 1
+  }
+},
+{
+  "model": "courses.lesson",
+  "pk": 2,
+  "fields": {
+    "course": 1,
+    "title": "Models",
+    "content": "Models content",
+    "order": 2
+  }
+},
+{
+  "model": "courses.lesson",
+  "pk": 3,
+  "fields": {
+    "course": 2,
+    "title": "Hooks",
+    "content": "Hooks content",
+    "order": 1
+  }
+},
+{
+  "model": "courses.enrollment",
+  "pk": 1,
+  "fields": {
+    "student": 3,
+    "course": 1,
+    "enrolled_at": "2026-04-16T13:21:55.738Z"
+  }
+},
+{
+  "model": "courses.progress",
+  "pk": 1,
+  "fields": {
+    "student": 3,
+    "lesson": 1,
+    "is_completed": true,
+    "completed_at": "2026-04-16T13:21:55.744Z"
+  }
+},
+{
+  "model": "courses.progress",
+  "pk": 2,
+  "fields": {
+    "student": 3,
+    "lesson": 2,
+    "is_completed": false,
+    "completed_at": null
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$MrMVZb56HTce4E8YWgpexz$y0EXg6Kt7t6StB9IVxIGVPm5CKHVwXknxHudGaYiatU=",
+    "last_login": "2026-04-12T17:03:26.753Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-04-12T16:58:46.576Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$BP1T9krDeR672BNhCA6Fso$xxYLxvZgja9B8od0VhF1lc1Y9rPaB2V8Q/MxYjd9aI4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "instructor1",
+    "first_name": "",
+    "last_name": "",
+    "email": "instr1@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-16T13:21:55.096Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$Zgti5UMmmXzcibE5I0d2Eq$4qANHwAbUOVs12xUBH+P9xZbnc3cawEacj60KA9l/6Y=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student1",
+    "first_name": "",
+    "last_name": "",
+    "email": "student1@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-16T13:21:55.411Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
