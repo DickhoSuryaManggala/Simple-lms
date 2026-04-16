@@ -33,6 +33,7 @@ simple-lms/
     - Menggunakan `select_related` untuk efisiensi relasi ForeignKey.
     - Menggunakan `annotate` dengan `Count` dan `Case` untuk perhitungan progres langsung di database (menghindari N+1 problem).
 - **Django Admin**: Interface admin yang informatif dengan filter, pencarian, dan inline editing untuk Lesson.
+- **REST API**: API lengkap dengan Django Ninja, JWT Authentication, dan Swagger documentation.
 
 ## 🚀 Cara Menjalankan Proyek
 
@@ -64,6 +65,7 @@ docker-compose run --rm web python manage.py loaddata initial_data
 - **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
     - **Username**: `admin`
     - **Password**: `SisiLMS2026!`
+- **API Documentation (Swagger)**: [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
 
 ## 📊 Demonstrasi Optimasi Query
 
