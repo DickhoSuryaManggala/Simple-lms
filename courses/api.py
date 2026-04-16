@@ -1,5 +1,5 @@
 from typing import List, Optional
-from django.shortcuts import get_object_or_found
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, Group
 from ninja import NinjaAPI, Router, Query
