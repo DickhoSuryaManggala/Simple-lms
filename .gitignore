@@ -17,6 +17,9 @@ static/
 .DS_Store
 Thumbs.db
 
+# User specific
+api.txt
+
 # IDE
 .vscode/
 .idea/

@@ -98,6 +98,21 @@ Berikut adalah beberapa tampilan dari aplikasi Simple LMS:
 ### 5. API Authorization (Swagger)
 ![API Authorization](image/Screenshot%202026-04-16%20212219.png)
 
+### 6. API Endpoints List (Auth)
+![Auth Endpoints](image/Screenshot%202026-04-16%20212702.png)
+
+### 7. API Endpoints List (Courses)
+![Course Endpoints](image/Screenshot%202026-04-16%20212718.png)
+
+### 8. API Endpoints List (Enrollments)
+![Enrollment Endpoints](image/Screenshot%202026-04-16%20212751.png)
+
+### 9. Pydantic Schemas
+![Schemas](image/Screenshot%202026-04-16%20212826.png)
+
+### 10. Swagger Full View
+![Swagger Full](image/Screenshot%202026-04-16%20213047.png)
+
 ## 🛠️ Variabel Lingkungan (.env)
 
 | Variabel | Deskripsi | Default |
