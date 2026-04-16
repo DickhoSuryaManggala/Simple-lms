@@ -95,7 +95,10 @@ Berikut adalah beberapa tampilan dari aplikasi Simple LMS:
 ### 4. Query Optimization Demo
 ![Query Demo Result](image/Screenshot%202026-04-13%20000318.png)
 
-## �🛠️ Variabel Lingkungan (.env)
+### 5. API Authorization (Swagger)
+![API Authorization](image/Screenshot%202026-04-16%20212219.png)
+
+## 🛠️ Variabel Lingkungan (.env)
 
 | Variabel | Deskripsi | Default |
 |----------|-----------|---------|
