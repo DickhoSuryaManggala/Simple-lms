@@ -111,22 +111,49 @@ docker-compose exec web python manage.py migrate
 Berikut adalah screenshot fitur baru di Progres 4:
 
 ### 1. Docker Compose Services Running
-![Docker Compose](image/Screenshot%202026-04-16%20213047.png)
+![Docker Compose](image/Screenshot%202026-06-23%20121039.png)
 
-### 2. API Documentation (Swagger UI) - Analytics Endpoints
-![API Swagger](image/Screenshot%202026-04-16%20213047.png)
+### 2. API Documentation (Swagger UI)
+![API Swagger](image/Screenshot%202026-06-23%20121305.png)
 
-### 3. Flower (Celery Monitoring UI)
-![Flower](image/Screenshot%202026-04-16%20213047.png)
+### 3. API Analytics Endpoints
+![API Analytics](image/Screenshot%202026-06-23%20121346.png)
 
-### 4. RabbitMQ Management UI
-![RabbitMQ](image/Screenshot%202026-04-16%20213047.png)
+### 4. Flower (Celery Monitoring UI)
+![Flower](image/Screenshot%202026-06-23%20121710.png)
 
-### 5. MongoDB Activity Logs
-![MongoDB](image/Screenshot%202026-04-16%20213047.png)
+### 5. Flower Tasks
+![Flower Tasks](image/Screenshot%202026-06-23%20121717.png)
 
-### 6. Redis CLI
-![Redis](image/Screenshot%202026-04-16%20213047.png)
+### 6. Flower Broker
+![Flower Broker](image/Screenshot%202026-06-23%20121726.png)
+
+### 7. RabbitMQ Management UI
+![RabbitMQ](image/Screenshot%202026-06-23%20121807.png)
+
+### 8. MongoDB Activity Logs
+![MongoDB](image/Screenshot%202026-06-23%20121826.png)
+
+### 9. Redis CLI
+![Redis](image/Screenshot%202026-06-23%20121838.png)
+
+### 10. API Test
+![API Test](image/Screenshot%202026-06-23%20121849.png)
+
+### 11. API Response
+![API Response](image/Screenshot%202026-06-23%20121857.png)
+
+### 12. Terminal Docker Compose
+![Docker Compose Terminal](image/Screenshot%202026-06-23%20121904.png)
+
+### 13. MongoDB Compass
+![MongoDB Compass](image/Screenshot%202026-06-23%20121912.png)
+
+### 14. Django Admin
+![Django Admin](image/Screenshot%202026-06-23%20122754.png)
+
+### 15. Final Check
+![Final Check](image/Screenshot%202026-06-23%20122906.png)
 
 ---
 
