@@ -2,8 +2,11 @@
 
 ## 📸 Hasil Test
 
-### Screenshot Hasil Test (First Call vs Second Call
-![Test Result](image/Screenshot%202026-06-23%20122906.png)
+### 1. Screenshot Hasil Test (First Call vs Second Call)
+![Test Result](image/Screenshot%202026-06-23%20125854.png)
+
+### 2. Screenshot Redis CLI (Menunjukkan Key weather:Jakarta)
+![Redis CLI](image/Screenshot%202026-06-23%20125923.png)
 
 ---
 
