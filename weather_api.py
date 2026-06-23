@@ -37,5 +37,22 @@ def get_weather(city):
     return weather_data
 
 if __name__ == "__main__":
-    # Test langsung di weather_api.py
-    print(get_weather("Jakarta"))
+    # Test langsung di weather_api.py (tidak butuh file test_cache.py)
+    print("=== First Call (Cache Miss) ===")
+    start = time.time()
+    result1 = get_weather("Jakarta")
+    time1 = time.time() - start
+    print(f"First call: {time1:.2f}s")
+
+    print("\n" + "="*50 + "\n")
+
+    print("=== Second Call (Cache Hit) ===")
+    start = time.time()
+    result2 = get_weather("Jakarta")
+    time2 = time.time() - start
+    print(f"Second call (cached): {time2:.2f}s")
+
+    print("\n" + "="*50 + "\n")
+
+    print("✅ Test selesai!")
+    print(f"Perbedaan waktu: {time1 - time2:.2f}s lebih cepat!")
