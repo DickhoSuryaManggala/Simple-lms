@@ -1,27 +1,60 @@
-# Simple LMS - Django & Docker Project
+# Simple LMS - Django & Docker Project (Progres 4)
 
 ![Django Admin Dashboard](image/Screenshot%202026-04-16%20204855.png)
 
-Proyek **Simple LMS** (Learning Management System) yang dibangun menggunakan Django dan dikemas dengan Docker. Proyek ini mendemonstrasikan desain database yang efisien dan optimasi query untuk skala besar.
+Proyek **Simple LMS** (Learning Management System) yang dibangun menggunakan Django dan dikemas dengan Docker. Proyek ini mendemonstrasikan desain database yang efisien, optimasi query untuk skala besar, dan integrasi dengan Redis, MongoDB, dan Celery.
+
+---
 
 ## 📦 Struktur Proyek
 
 ```text
 simple-lms/
-├── config/                 # Konfigurasi utama Django (settings, urls, wsgi)
-├── courses/                # App LMS (Models, Admin, Fixtures)
-│   ├── fixtures/           # Data awal untuk testing
-│   ├── migrations/         # Database migrations
-│   ├── admin.py            # Kustomisasi Django Admin
-│   └── models.py           # Definisi skema database
+├── config/                 # Konfigurasi utama Django (settings, urls, wsgi, celery)
+│   ├── mongodb.py          # Koneksi dan aggregation queries MongoDB
+│   └── celery.py         # Konfigurasi Celery
+├── courses/                # App LMS (Models, Admin, Fixtures, API, Tasks)
+│   ├── tasks.py           # Celery tasks (email, certificate, update stats, export)
+│   └── ...
 ├── .env.example            # Template variabel lingkungan
-├── Dockerfile              # Konfigurasi container Python
-├── docker-compose.yml      # Orkestrasi container (Web & DB)
-├── manage.py               # Django management script
-├── query_demo.py           # Script demonstrasi optimasi query
-├── requirements.txt        # Daftar dependensi Python
-└── README.md               # Dokumentasi proyek
+├── docker-compose.yml      # Orkestrasi container (Web, DB, Redis, MongoDB, RabbitMQ, Celery, Flower)
+├── ARCHITECTURE.md         # Dokumentasi arsitektur proyek
+└── ...
 ```
+
+---
+
+## 🆕 Update Progres 4: Fitur Baru
+
+Pada progres ke-4, kita menambahkan fitur-fitur berikut:
+
+### 1. **Redis Integration**
+- **Course List Caching** (5 menit cache)
+- **Course Detail Caching** (10 menit cache)
+- **Rate Limiting** (60 permintaan/menit per IP)
+
+### 2. **MongoDB Integration**
+- **Activity Log Collection**: Log semua aktivitas pengguna (register, login, course viewed, dll.)
+- **Learning Analytics Collection**: Statistik course (enrollment count, dll.)
+- **Aggregation Queries untuk Reports**
+
+### 3. **Celery Tasks**
+- `send_enrollment_email`: Kirim email saat user mendaftar course (async)
+- `generate_certificate`: Generate sertifikat (async)
+- `update_course_statistics`: Update statistik course (periodic task, setiap jam)
+- `export_course_report`: Export laporan course CSV (async)
+
+### 4. **Docker Compose Services**
+- `web`: Django app
+- `db`: PostgreSQL database
+- `redis`: Redis untuk caching dan rate limiting
+- `mongodb`: MongoDB untuk activity log dan analytics
+- `rabbitmq`: Message broker untuk Celery
+- `celery-worker`: Celery worker (menjalankan task async tasks)
+- `celery-beat`: Celery Beat (scheduled tasks)
+- `flower`: Flower (Celery monitoring UI)
+
+---
 
 ## 🎯 Fitur Utama
 
@@ -34,6 +67,12 @@ simple-lms/
     - Menggunakan `annotate` dengan `Count` dan `Case` untuk perhitungan progres langsung di database (menghindari N+1 problem).
 - **Django Admin**: Interface admin yang informatif dengan filter, pencarian, dan inline editing untuk Lesson.
 - **REST API**: API lengkap dengan Django Ninja, JWT Authentication, dan Swagger documentation.
+- **Redis Caching & Rate Limiting**.
+- **MongoDB Activity Log & Analytics**.
+- **Celery Async & RabbitMQ** untuk task async dan periodic.
+- **Flower monitoring UI** untuk monitoring Celery tasks.
+
+---
 
 ## 🚀 Cara Menjalankan Proyek
 
@@ -42,76 +81,59 @@ Pastikan Anda sudah menginstal **Docker** dan **Docker Compose**.
 
 ### 2. Setup Environment
 Salin file `.env.example` menjadi `.env`:
-```bash
-cp .env.example .env
+```powershell
+Copy-Item .env.example .env
 ```
 
 ### 3. Build dan Jalankan Container
-```bash
+```powershell
 docker-compose up -d --build
 ```
 
-### 4. Inisialisasi Database & Data Awal
-Jalankan migrasi dan muat data contoh:
-```bash
+### 4. Inisialisasi Database
+Jalankan migrasi:
+```powershell
 # Migrasi Database
-docker-compose run --rm web python manage.py migrate
-
-# Memuat Data Awal (Users, Courses, Lessons)
-docker-compose run --rm web python manage.py loaddata initial_data
+docker-compose exec web python manage.py migrate
 ```
 
 ### 5. Akses Aplikasi
-- **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
-    - **Username**: `admin`
-    - **Password**: `SisiLMS2026!`
 - **API Documentation (Swagger)**: [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
+- **Flower (Celery Monitoring)**: [http://localhost:5555](http://localhost:5555)
+- **RabbitMQ Management UI**: [http://localhost:15672](http://localhost:15672)
+  - **Username**: `guest`
+  - **Password**: `guest`
 
-## 📊 Demonstrasi Optimasi Query
+---
 
-Kami menyediakan script khusus untuk menunjukkan perbedaan performa antara query standar vs query yang dioptimalkan. Jalankan perintah berikut:
+## 📸 Gallery / Screenshots Progres 4
 
-```bash
-docker-compose run --rm web python query_demo.py
-```
+Berikut adalah screenshot fitur baru di Progres 4:
 
-**Hasil yang diharapkan:**
-- **N+1 Problem**: Menampilkan bagaimana satu request bisa memicu banyak query ke database.
-- **Optimized**: Menampilkan bagaimana `select_related` dan `annotate` mengurangi jumlah query secara drastis.
+### 1. Docker Compose Services Running
+![Docker Compose](image/Screenshot%202026-04-16%20213047.png)
 
-## �️ Gallery / Screenshots
+### 2. API Documentation (Swagger UI) - Analytics Endpoints
+![API Swagger](image/Screenshot%202026-04-16%20213047.png)
 
-Berikut adalah beberapa tampilan dari aplikasi Simple LMS:
+### 3. Flower (Celery Monitoring UI)
+![Flower](image/Screenshot%202026-04-16%20213047.png)
 
-### 1. Django Admin Login
-![Admin Login](image/Screenshot%202026-04-12%20235603.png)
+### 4. RabbitMQ Management UI
+![RabbitMQ](image/Screenshot%202026-04-16%20213047.png)
 
-### 2. Dashboard Admin & Management
-![Admin Dashboard](image/Screenshot%202026-04-16%20204855.png)
+### 5. MongoDB Activity Logs
+![MongoDB](image/Screenshot%202026-04-16%20213047.png)
 
-### 3. Konfigurasi Database & Models
-![Database Setup](image/Screenshot%202026-04-16%20204643.png)
+### 6. Redis CLI
+![Redis](image/Screenshot%202026-04-16%20213047.png)
 
-### 4. Query Optimization Demo
-![Query Demo Result](image/Screenshot%202026-04-13%20000318.png)
+---
 
-### 5. API Authorization (Swagger)
-![API Authorization](image/Screenshot%202026-04-16%20212219.png)
+## 📊 Dokumentasi Arsitektur
+Untuk penjelasan lebih lanjut tentang arsitektur dan cara kerja fitur baru di Progres 4, lihat file [ARCHITECTURE.md](ARCHITECTURE.md).
 
-### 6. API Endpoints List (Auth)
-![Auth Endpoints](image/Screenshot%202026-04-16%20212702.png)
-
-### 7. API Endpoints List (Courses)
-![Course Endpoints](image/Screenshot%202026-04-16%20212718.png)
-
-### 8. API Endpoints List (Enrollments)
-![Enrollment Endpoints](image/Screenshot%202026-04-16%20212751.png)
-
-### 9. Pydantic Schemas
-![Schemas](image/Screenshot%202026-04-16%20212826.png)
-
-### 10. Swagger Full View
-![Swagger Full](image/Screenshot%202026-04-16%20213047.png)
+---
 
 ## 🛠️ Variabel Lingkungan (.env)
 
@@ -122,9 +144,15 @@ Berikut adalah beberapa tampilan dari aplikasi Simple LMS:
 | `DB_PASSWORD` | Password database | `lms_password` |
 | `DEBUG` | Mode debug Django | `True` |
 | `SECRET_KEY` | Django Secret Key | (Gunakan key unik) |
+| `REDIS_HOST` | Host Redis | `redis` |
+| `REDIS_PORT` | Port Redis | `6379` |
+| `MONGO_HOST` | Host MongoDB | `mongodb` |
+| `MONGO_PORT` | Port MongoDB | `27017` |
+| `RABBITMQ_HOST` | Host RabbitMQ | `rabbitmq` |
+| `RABBITMQ_PORT` | Port RabbitMQ | `5672` |
 
 ---
-*Dibuat untuk keperluan pembelajaran containerization dan optimasi Django.*
+
 
 **Author:**
 - Dickho Surya Manggala

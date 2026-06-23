@@ -25,3 +25,6 @@ api.txt
 .idea/
 *.swp
 *.swo
+
+# Celery
+celerybeat-schedule

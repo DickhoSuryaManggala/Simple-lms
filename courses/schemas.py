@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
 # Auth Schemas
 class RegisterSchema(BaseModel):
@@ -18,6 +18,7 @@ class TokenSchema(BaseModel):
     refresh: str
 
 class UserSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     username: str
     email: EmailStr
@@ -31,27 +32,37 @@ class ProfileUpdateSchema(BaseModel):
 
 # Course Schemas
 class CategorySchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     name: str
 
 class LessonSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     title: str
     content: str
     order: int
 
 class CourseListSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     title: str
     category: Optional[CategorySchema]
     instructor: str
     lessons_count: int
 
-    @staticmethod
-    def resolve_instructor(obj):
-        return obj.instructor.username
+    @classmethod
+    def from_orm(cls, obj):
+        return cls(
+            id=obj.id,
+            title=obj.title,
+            category=CategorySchema.from_orm(obj.category) if obj.category else None,
+            instructor=obj.instructor.username,
+            lessons_count=obj.lessons_count
+        )
 
 class CourseDetailSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     title: str
     description: str
@@ -59,9 +70,16 @@ class CourseDetailSchema(BaseModel):
     instructor: str
     lessons: List[LessonSchema]
 
-    @staticmethod
-    def resolve_instructor(obj):
-        return obj.instructor.username
+    @classmethod
+    def from_orm(cls, obj):
+        return cls(
+            id=obj.id,
+            title=obj.title,
+            description=obj.description,
+            category=CategorySchema.from_orm(obj.category) if obj.category else None,
+            instructor=obj.instructor.username,
+            lessons=[LessonSchema.from_orm(lesson) for lesson in obj.lessons.all()]
+        )
 
 class CourseCreateSchema(BaseModel):
     title: str
@@ -70,14 +88,20 @@ class CourseCreateSchema(BaseModel):
 
 # Enrollment & Progress Schemas
 class EnrollmentSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     course_title: str
     enrolled_at: datetime
     progress_percentage: float
 
-    @staticmethod
-    def resolve_course_title(obj):
-        return obj.course.title
+    @classmethod
+    def from_orm(cls, obj):
+        return cls(
+            id=obj.id,
+            course_title=obj.course.title,
+            enrolled_at=obj.enrolled_at,
+            progress_percentage=obj.progress_percentage
+        )
 
 class ProgressUpdateSchema(BaseModel):
     is_completed: bool

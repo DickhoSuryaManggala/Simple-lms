@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Internal apps
     'courses',
+    # Third-party apps
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,39 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- Redis Cache Configuration ---
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{os.getenv('REDIS_HOST', 'localhost')}:{os.getenv('REDIS_PORT', '6379')}/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+# --- Celery Configuration ---
+CELERY_BROKER_URL = f"pyamqp://{os.getenv('RABBITMQ_HOST', 'localhost')}:{os.getenv('RABBITMQ_PORT', '5672')}//"
+CELERY_RESULT_BACKEND = f"redis://{os.getenv('REDIS_HOST', 'localhost')}:{os.getenv('REDIS_PORT', '6379')}/0"
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULE = {
+    'update-course-statistics': {
+        'task': 'courses.tasks.update_course_statistics',
+        'schedule': 3600.0,  # Run every hour
+    },
+}
+
+# --- MongoDB Configuration ---
+MONGO_HOST = os.getenv('MONGO_HOST', 'localhost')
+MONGO_PORT = int(os.getenv('MONGO_PORT', '27017'))
+MONGO_DB_NAME = 'lms_analytics'
+
+# --- Rate Limiting ---
+RATE_LIMIT_REQUESTS = 60
+RATE_LIMIT_PERIOD = 60  # seconds
+
