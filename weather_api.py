@@ -3,9 +3,11 @@ import time
 import redis
 import json
 
-# Connect to Redis
+import os
+# Connect to Redis - support both local and Docker
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
 redis_client = redis.Redis(
-    host='localhost',
+    host=REDIS_HOST,
     port=6379,
     db=0,
     decode_responses=True
@@ -32,7 +34,7 @@ def get_weather(city):
     weather_data = response.json()
     
     # Simpan ke Redis dengan expiry 5 menit (300 detik)
-    redis_client.setex(cache_key, 300, json.dumps(weather_data))
+    redis_client.set(cache_key, json.dumps(weather_data), ex=300)
     
     return weather_data
 
